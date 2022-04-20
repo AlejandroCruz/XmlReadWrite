@@ -1,9 +1,27 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using Microsoft.Extensions.Configuration;
+using System.Xml.Linq;
 
-var xmlHandler = new XmlHandler(@"C:\...\xmlFile.xml");
-string elementName = "title";
+// Config
+const string CONFIG_FILE = "AppConfig/appsettings";
+IConfiguration _configuration = new ConfigurationBuilder()
+    .AddJsonFile($"{CONFIG_FILE}.development.json", optional: true)
+    .AddEnvironmentVariables()
+    .Build();
 
-IEnumerable<string> listOfTitles = xmlHandler.GetElementList(elementName);
+string xmlSource = AppDomain.CurrentDomain.BaseDirectory + _configuration["XmlSources:Default"];
+var xmlHandler = new XmlHandler(xmlSource);
 
-foreach (string title in listOfTitles)
-    Console.WriteLine(title);
+// Print element list
+IEnumerable<string> listOfElements = xmlHandler.GetElementList();
+
+foreach (string element in listOfElements)
+    Console.WriteLine(element);
+
+// Print element keys with values list
+IEnumerable<XElement> listOfKeys = xmlHandler.GetKeyList();
+string xmlRoot = listOfKeys.ElementAtOrDefault(0)?.Parent?.Name.ToString();
+Console.WriteLine($"\nXML Root <{xmlRoot}>:\n");
+foreach (var key in listOfKeys)
+{
+    Console.WriteLine(key);
+}
