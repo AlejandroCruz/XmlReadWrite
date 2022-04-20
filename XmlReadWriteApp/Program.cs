@@ -8,20 +8,14 @@ IConfiguration _configuration = new ConfigurationBuilder()
     .AddEnvironmentVariables()
     .Build();
 
+// Data source path
 string xmlSource = AppDomain.CurrentDomain.BaseDirectory + _configuration["XmlSources:Default"];
+
 var xmlHandler = new XmlHandler(xmlSource);
 
-// Print element list
-IEnumerable<string> listOfElements = xmlHandler.GetElementList();
+IEnumerable<XElement> xmlWithRoot = xmlHandler.GetRootStructure();
+string xmlRoot = xmlHandler.RootName.ToString();
 
-foreach (string element in listOfElements)
-    Console.WriteLine(element);
-
-// Print element keys with values list
-IEnumerable<XElement> listOfKeys = xmlHandler.GetKeyList();
-string xmlRoot = listOfKeys.ElementAtOrDefault(0)?.Parent?.Name.ToString();
-Console.WriteLine($"\nXML Root <{xmlRoot}>:\n");
-foreach (var key in listOfKeys)
-{
+Console.WriteLine($"\nXML Root <{xmlRoot ?? default}>:\n");
+foreach (XElement key in xmlWithRoot)
     Console.WriteLine(key);
-}

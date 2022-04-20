@@ -1,32 +1,23 @@
 ﻿using System.Xml.Linq;
 
-internal class XmlHandler
+public class XmlHandler
 {
-    private XElement _xmlContent;
+    private XDocument _xDocument;
 
     public XmlHandler(string xmlSource)
     {
-        XmlSource = xmlSource;
-        _xmlContent = XElement.Load(xmlSource);
+        _xDocument = XDocument.Load(xmlSource);
+        RootName = _xDocument.Root!.Name;
     }
 
-    public string XmlSource { get; }
+    public XName RootName { get; private set; }
 
-    internal IEnumerable<string> GetElementList()
+    public IEnumerable<XElement> GetRootStructure()
     {
-        IEnumerable<string> list =
-            from e in _xmlContent.Elements()
-            select (string)e;
-
-        return list;
-    }
-
-    internal IEnumerable<XElement> GetKeyList()
-    {
-        IEnumerable<XElement> groupByElementName =
-            from e in _xmlContent.Elements()
+        IEnumerable<XElement> structure =
+            from e in _xDocument.Elements()
             select e;
 
-        return groupByElementName;
+        return structure;
     }
 }
