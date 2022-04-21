@@ -3,13 +3,14 @@ using System.Xml.Linq;
 
 // Config
 const string CONFIG_FILE = "AppConfig/appsettings";
-IConfiguration _configuration = new ConfigurationBuilder()
+string base_dir = AppDomain.CurrentDomain.BaseDirectory;
+IConfiguration configuration = new ConfigurationBuilder()
     .AddJsonFile($"{CONFIG_FILE}.development.json", optional: true)
     .AddEnvironmentVariables()
     .Build();
 
 // Data source path
-string xmlSource = AppDomain.CurrentDomain.BaseDirectory + _configuration["XmlSources:Default"];
+string xmlSource = base_dir + configuration["XmlSources:Default"];
 
 var xmlHandler = new XmlHandler(xmlSource);
 

@@ -18,7 +18,7 @@
     <None Update="AppConfig\appsettings.development.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\Documents\xmlFileCopy.xml">
+    <None Update="Resources\Documents\xmlFileEmpty.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resources\Documents\xmlFile.xml">

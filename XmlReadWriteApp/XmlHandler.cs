@@ -11,6 +11,7 @@ public class XmlHandler
     }
 
     public XName RootName { get; private set; }
+    public XDocument UTest_xDocument { get => _xDocument; }
 
     public IEnumerable<XElement> GetRootStructure()
     {
