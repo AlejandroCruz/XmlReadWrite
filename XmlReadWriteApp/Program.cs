@@ -16,7 +16,7 @@ string xmlSource = base_dir + configuration["XmlSources:PurchaseOrder"];
 var xmlHandler = new XmlHandler(xmlSource);
 
 /*// Get root structure
-IEnumerable<XElement> xmlWithRoot = xmlHandler.GetRootStructure();
+IEnumerable<XElement>? xmlWithRoot = xmlHandler.GetRootStructure();
 string xmlRoot = xmlHandler.RootName.ToString();
 
 Console.WriteLine($"# XML Root <{xmlRoot ?? default}>:\n");
@@ -26,19 +26,36 @@ Console.WriteLine("\n---\n");
 
 // Get element list
 string elementGetElementList = "Item";
-IEnumerable<XElement> xmlGetElementList = xmlHandler.GetElementList(elementGetElementList);
+IEnumerable<XElement>? xmlGetElementList = xmlHandler.GetElementList(elementGetElementList);
 
 Console.WriteLine($"Element <{elementGetElementList}>:\n");
 foreach (XElement e in xmlGetElementList)
     Console.WriteLine(e);
-Console.WriteLine("\n---\n");*/
+Console.WriteLine("\n---\n");
 
 // Get value from specified element
-string parentGetElementValue = "Item", descendantGetElementValue = "ProductName"; 
-var xmlGetElementValue = xmlHandler.GetElementValue(parentGetElementValue, descendantGetElementValue);
+string parentGetElementValue = "Item", descendantGetElementValue = "ProductName";
+IEnumerable<XElement>? xmlGetElementValue = xmlHandler.GetElementValue(
+    parentGetElementValue,
+    descendantGetElementValue);
 
 Console.WriteLine($"<{parentGetElementValue}>:");
 Console.WriteLine($@"   <{xmlGetElementValue.First().Name}>");
 foreach (XElement key in xmlGetElementValue)
     Console.WriteLine($@"    {key.Value}");
+Console.WriteLine("\n---\n");*/
+
+// Get descendant values given parent attribute value
+string
+    parentGetDescendantValues = "Address",
+    attributeNameGetDescendantValues = "Type",
+    attributeValueGetDescendantValues = "Billing";
+var xmlGetDescendantValues = xmlHandler.GetDescendantValues<XElement>(
+    parentGetDescendantValues,
+    attributeNameGetDescendantValues,
+    attributeValueGetDescendantValues);
+
+Console.WriteLine($"{attributeValueGetDescendantValues} {parentGetDescendantValues}:");
+foreach (var key in xmlGetDescendantValues)
+    Console.WriteLine($@"   {key.Name}: {key.Value}");
 Console.WriteLine("\n---\n");

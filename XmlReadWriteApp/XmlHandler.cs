@@ -39,4 +39,18 @@ public class XmlHandler
         
         return eList;
     }
+
+    public IEnumerable<T> GetDescendantValues<T>(string parent, string attributeName, string attributeValue)
+    {
+        var parentStruct =
+            from p in _xDocument.Descendants(parent)
+            where (string)p.Attribute(attributeName) == attributeValue
+            select p;
+
+        var descendantsList =
+            from d in parentStruct.Elements()
+            select d;
+
+        return (IEnumerable<T>)descendantsList;
+    }
 }
