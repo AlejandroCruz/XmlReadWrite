@@ -21,4 +21,22 @@ public class XmlHandler
 
         return structure;
     }
+
+    public IEnumerable<XElement> GetElementList(string element)
+    {
+        IEnumerable<XElement> eList =
+            from e in _xDocument.Descendants(element)
+            select e;
+
+        return eList;
+    }
+
+    public IEnumerable<XElement> GetElementValue(string parent, string descendant)
+    {
+        IEnumerable<XElement> eList =
+            from e in _xDocument.Descendants(parent)
+            select e.Element(descendant);
+        
+        return eList;
+    }
 }
